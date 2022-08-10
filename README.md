@@ -7,7 +7,10 @@ Basis algorithm for extracting audio features is STFT, running at:
   
 Results are plotted, with various outputs in the console.  
 A Sakoe-chiba band is the current optimization.  
-Saving the path as JSON on button click.
+Saving the path as JSON on button click.  
+  
+Here is what it would look like for an obvious example.  
+See the impact of the long silence at the end of the audio file:
 
 ![Chromas](https://github.com/de-tre/dtw-audio-midi.js/blob/main/screenshots/Chromas.png)
 
