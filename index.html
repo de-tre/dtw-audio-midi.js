@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" color-scheme="dark !important">
+    <head>
+        <title>dtw audio/midi</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <link
+          rel="stylesheet"
+          type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+        />
+        <style>
+            html {
+                background-color: #181a1b !important;
+            }
+            html {
+                color-scheme: dark !important;
+            }
+            html, body {
+                background-color: #181a1b;
+            }
+            html, body {
+                border-color: #736b5e;
+                color: #e8e6e3;
+            }
+            a {
+                color: #3391ff;
+            }
+            table {
+                border-color: #545b5e;
+            }
+            ::placeholder {
+                color: #b2aba1;
+            }
+            input:-webkit-autofill,
+            textarea:-webkit-autofill,
+            select:-webkit-autofill {
+                background-color: #404400 !important;
+                color: #e8e6e3 !important;
+            }
+            ::-webkit-scrollbar {
+                background-color: #202324;
+                color: #aba499;
+            }
+            ::-webkit-scrollbar-thumb {
+                background-color: #454a4d;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background-color: #575e62;
+            }
+            ::-webkit-scrollbar-thumb:active {
+                background-color: #484e51;
+            }
+            ::-webkit-scrollbar-corner {
+                background-color: #181a1b;
+            }
+            ::selection {
+                background-color: #004daa !important;
+                color: #e8e6e3 !important;
+            }
+            ::-moz-selection {
+                background-color: #004daa !important;
+                color: #e8e6e3 !important;
+            }
+        </style>
+    </head>
+    <center>
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"></script>
+        <script src="https://unpkg.com/mathjs/lib/browser/math.js"></script>
+        <script src='https://cdn.plot.ly/plotly-2.12.1.min.js'></script>
+        <script src="https://unpkg.com/@tonejs/midi"></script>
+        <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_SVG"></script>
+        <script src="js/extractFeatures.js"></script>
+        <script src="js/helpers.js"></script>
+        <script src="js/handles.js"></script>
+        <script src="js/dtw.js"></script>
+
+        <body style="background-color:  #222!important; color: rgba(232, 230, 227, 0.87)">
+            <div><h1>DTW audio/midi</h1></div>
+            <div style="height: 20px; display: inline-block;"></div>
+            <div>
+                <label for="inputaudio" role="button">Audio: 
+                    <br /><input type="file" id="inputaudio" 
+                    accept=".wav, .mp3, .opus, .ogg, .flac, .wma"/>
+                </label>
+            </div>
+            <div style="height: 20px; display: inline-block;"></div>
+            <div>
+                <label for="inputmidi" role="button">MIDI: 
+                    <br /><input type="file" id="inputmidi" accept="audio/midi" />
+                </label>
+            </div>
+            <div style="height: 50px; display: inline-block;"></div>
+            <div>
+                <button class="btn" id="btnDTW">
+                    Save dtw.json
+                </button>
+                <div style="width: 20px; height: auto; display: inline-block;"></div>
+                <button class="btn" id="btnReset">
+                    Reset
+                </button>
+            </div>
+            <div style="height: 30px; display: inline-block;"></div>
+            <div style="background-color:  #222!important;">
+                <div class='plot' id='audiofeatures'><!-- Plotly chart will be drawn inside this DIV --></div>
+                <div class='plot' id='midifeatures'><!-- Plotly chart will be drawn inside this DIV --></div>
+                <div class='plot' id='path'><!-- Plotly chart will be drawn inside this DIV --></div>
+            </div>
+        </body>
+    </center>
+</html>
