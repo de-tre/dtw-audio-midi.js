@@ -1,5 +1,5 @@
 # dynamic time warping / audio-midi
-Implementation of DTW algorithm between audio and MIDI files.  
+Implementation of DTW algorithm between any audio type and MIDI files.  
 Basis algorithm for extracting audio features is STFT, running at:  
 `sampleRate = 22050`,  
 `frameSize = 1024` and  
