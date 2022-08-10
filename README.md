@@ -10,7 +10,7 @@ A Sakoe-chiba band is the current optimization.
 Saving the path as JSON on button click.  
   
 Here is what it would look like for an obvious example.  
-See the impact of the long silence at the end of the audio file:
+See what impact the long silence at the end of the audio file has on the alignment:
 
 ![Chromas](https://github.com/de-tre/dtw-audio-midi.js/blob/main/screenshots/Chromas.png)
 
