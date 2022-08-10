@@ -1,4 +1,4 @@
-# dtw-audio-midi.js
+# dynamic time warping / audio-midi
 Implementation of DTW algorithm between audio and MIDI files.  
 Basis algorithm for extracting audio features is STFT, running at:  
 `sampleRate = 22050`,  
