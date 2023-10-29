@@ -97,7 +97,7 @@ window.onload = async () => {
     }));
 
     // Save and restart button actions
-    const btn = document.getElementsByClassName('btn').forEach(e => e.addEventListener('click', async (e) => {
+    const btn = Array.from(document.getElementsByClassName('btn')).forEach(e => e.addEventListener('click', async (e) => {
         let elem = e.target;
 
         // Empty all data
