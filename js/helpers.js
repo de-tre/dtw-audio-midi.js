@@ -1,10 +1,10 @@
 // Functions that are used inside others 
 
 // <Some overview statistics
-console.log(`Sampling rate: ${sampleRate}`);
-console.log(`Frame size: ${frameSize}`);
-console.log(`Hop length: ${hopLength}`);
-console.log(`STFT frequency resolution (in Hz): ${Math.round(((sampleRate/frameSize) + Number.EPSILON) * 100) / 100}`);
+// console.log(`Sampling rate: ${sampleRate}`);
+// console.log(`Frame size: ${frameSize}`);
+// console.log(`Hop length: ${hopLength}`);
+// console.log(`STFT frequency resolution (in Hz): ${Math.round(((sampleRate/frameSize) + Number.EPSILON) * 100) / 100}`);
 // [76, 64, 52, 40, 39, 38].forEach((value) => 
 //     console.log(`Set P(${value}) = ${poolPitch(value, sampleRate, frameSize, pitchRef, freqRef)}`));
 

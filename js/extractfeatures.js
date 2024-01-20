@@ -8,41 +8,104 @@ const pitchRef = 69;
 const freqRef = 440;
 
 let ctx = new (window.AudioContext || window.webkitAudioContext)({sampleRate: `${sampleRate}`});
-ctx.sampleRate = sampleRate;
+// ctx.sampleRate = sampleRate;
 
-import FFT from 'fft.js';
+// import FFT from 'fft.js';
 
-// Audio feature extraction pipeline
-let analyseAudio = async (URL) => {
-    ctx.resume();
 
-    let signal = await x(URL);
-    let magSpec = await Y(signal);
-    let logComp = await logCompression(magSpec, 0.01).array();
-    let logSpec = await computeSpecLogFreq(logComp, sampleRate, frameSize, midiPitches);
-    let C = await computeChroma(logSpec, pitchClasses, midiPitches);
-    let normC = await normalizeFeature(C, 0.001);
+async function analyseAudio(audioBuffer) {
+    // Create a new Web Worker instance
+    const cqtWorker = new Worker('cqtWorker.js');
 
-    /* let plot = [
-        {
-            z: logSpec,
-            type: 'heatmap',
-            colorscale: 'Greys'
-        }
-    ];
-    let plotAudio = chromaHeatMap(plot, 'Spectrum X_n');
-    Plotly.newPlot('audiofeatures', plot, plotAudio['layout'], {scrollZoom: false}); */
+    // Send audio data to the worker
+    cqtWorker.postMessage({
+        audioBuffer: audioBuffer.getChannelData(0), // Assuming mono channel
+        sampleRate: audioBuffer.sampleRate, // Reading the sample rate
+        minFreq: 27.5, // Example value, adjust as needed
+        binsPerOctave: 12, // Example value
+        Q: 1 // Example Q factor
+    });
 
-    // Save some resources
-    signal = null;
-    magSpec = null;
-    logComp = null;
-    logSpec = null;
-    C = null;
-    ctx.suspend();
+    return new Promise((resolve, reject) => {
+        cqtWorker.onmessage = function(e) {
+            const { spectrogram } = e.data;
 
-    return normC;
+            // Continue with feature extraction using the CQT spectrogram
+            // For example, computeSpecLogFreq, computeChroma, etc.
+
+            let C = computeChroma(logSpec, pitchClasses, midiPitches);
+            let normC = normalizeFeature(C, 0.001);
+        
+            /* let plot = [
+                {
+                    z: logSpec,
+                    type: 'heatmap',
+                    colorscale: 'Greys'
+                }
+            ];
+            let plotAudio = chromaHeatMap(plot, 'Spectrum X_n');
+            Plotly.newPlot('audiofeatures', plot, plotAudio['layout'], {scrollZoom: false}); */
+        
+            // Save some resources
+            signal = null;
+            magSpec = null;
+            logComp = null;
+            logSpec = null;
+            C = null;
+            ctx.suspend();
+        
+            resolve(finalFeatures);
+            
+            return normC;
+        };
+
+        cqtWorker.onerror = function(e) {
+            reject(e.message);
+        };
+
+        // Send audio data to the worker
+        cqtWorker.postMessage({
+            audioBuffer: audioBuffer.getChannelData(0), // Assuming mono channel
+            sampleRate: audioBuffer.sampleRate,
+            minFreq: 27.5, // Example value, adjust as needed
+            binsPerOctave: 12, // Example value
+            Q: 1 // Example Q factor
+        });
+    });
 }
+
+
+// // Audio feature extraction pipeline
+// let analyseAudio = async (URL) => {
+//     ctx.resume();
+
+//     let signal = await x(URL);
+//     let magSpec = await Y(signal);
+//     let logComp = await logCompression(magSpec, 0.01).array();
+//     let logSpec = await computeSpecLogFreq(logComp, sampleRate, frameSize, midiPitches);
+//     let C = await computeChroma(logSpec, pitchClasses, midiPitches);
+//     let normC = await normalizeFeature(C, 0.001);
+
+//     /* let plot = [
+//         {
+//             z: logSpec,
+//             type: 'heatmap',
+//             colorscale: 'Greys'
+//         }
+//     ];
+//     let plotAudio = chromaHeatMap(plot, 'Spectrum X_n');
+//     Plotly.newPlot('audiofeatures', plot, plotAudio['layout'], {scrollZoom: false}); */
+
+//     // Save some resources
+//     signal = null;
+//     magSpec = null;
+//     logComp = null;
+//     logSpec = null;
+//     C = null;
+//     ctx.suspend();
+
+//     return normC;
+// }
 
 // Extract audio signal
 let x = async (URL) => {
